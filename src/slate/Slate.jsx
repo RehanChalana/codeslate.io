@@ -6,6 +6,7 @@ import * as Y from "yjs";
 import { WebsocketProvider } from "y-websocket";
 import { useParams } from "react-router-dom";
 import ExcalidrawEditor from "./ExcalidrawEditor";
+import VideoRoom from "../videochat/VideoRoom";
 
 const URL = `${import.meta.env.VITE_APP_SERVER}`;
 
@@ -346,6 +347,7 @@ const Slate = () => {
         <ExcalidrawEditor roomId={roomId} />
       </div>
 
+      console.log(typeof roomId)
       <VideoRoom roomId={roomId}/>
     </div>
   );
