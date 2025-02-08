@@ -4,6 +4,7 @@ import LandingPage from './pages/LandingPage'
 import SignUp from './auth/SignUp';
 import SlateSelection from './slate/SlateSelection';
 import Slate from './slate/Slate';
+import VideoRoom from './videochat/VideoRoom';
 
 function App() {
 
@@ -14,6 +15,7 @@ function App() {
       <Route path="/signup" element={<SignUp />} /> 
       <Route path="/home" element={<SlateSelection />} />
       <Route path="/room/:roomId" element={<Slate />} />
+      <Route path="/video" element={<VideoRoom roomId={1234}/>}/>
     </Routes>
   )
 }
