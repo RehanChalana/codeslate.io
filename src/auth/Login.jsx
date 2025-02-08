@@ -27,7 +27,7 @@ const Login = () => {
       );
       localStorage.setItem("user", JSON.stringify(userCredential.user));
       console.log(localStorage.getItem("user"));
-      navigate("/");
+      navigate("/home");
     } catch (error) {
       setError(error.message);
     } finally {
@@ -43,7 +43,7 @@ const Login = () => {
       const userCredential = await signInWithPopup(auth, googleProvider);
       localStorage.setItem("user", JSON.stringify(userCredential.user));
       console.log(localStorage.getItem("user"));
-      navigate("/");
+      navigate("/home");
     } catch (error) {
       setError(error.message);
     } finally {
@@ -58,7 +58,10 @@ const Login = () => {
       <div className="flex-1 bg-[#000] text-white flex flex-col justify-center items-center p-8">
         <div className="bg-[#0e0e0e] p-8 rounded-xl shadow-lg max-w-md w-full flex flex-col gap-4">
           <div className="text-xl mb-6 text-center text-gradient text-[#999999]">
-            <div className="text-4xl text-center font-semibold text-gradient py-4">
+            <div
+              onClick={() => navigate("/")}
+              className="text-4xl text-center font-semibold text-gradient py-4 cursor-pointer"
+            >
               <span className="text-[#e2ff24]">&lt;/</span>
               <span className="text-white">codeslate.io</span>
               <span className="text-[#24fe41]">&gt;</span>
@@ -89,7 +92,7 @@ const Login = () => {
 
             <button
               type="submit"
-              className={`text-black px-12 py-3 rounded-md font-semibold text-xl hover:bg-green-600  bg-gradient-to-r from-[#e2ff24] to-[#24fe41] transition ${
+              className={`text-black px-12 py-3 rounded-md font-semibold cursor-pointer text-xl hover:bg-green-600  bg-gradient-to-r from-[#e2ff24] to-[#24fe41] transition ${
                 loading ? "opacity-50 cursor-not-allowed" : ""
               }`}
               disabled={loading}
@@ -100,7 +103,7 @@ const Login = () => {
           <div className="mt-6">
             <button
               onClick={handleGoogleLogin}
-              className="w-full p-3 flex items-center justify-center gap-2 rounded-md font-semibold transition border border-[#24fe41] disabled:opacity-50"
+              className="w-full p-3 flex items-center justify-center gap-2 cursor-pointer rounded-md font-semibold transition border border-[#24fe41] disabled:opacity-50"
               disabled={loading}
             >
               <FcGoogle className="text-xl" />
@@ -119,12 +122,11 @@ const Login = () => {
       {/* Right Section: Image/Gradient */}
       <div className="relative flex-1 bg-gradient-to-br from-green-400 via-blue-500 to-purple-600 flex justify-center items-center">
         <img
-            src="/loginbg.jpg" // Replace with your image path
-            alt="Illustration"
-            className="absolute inset-0 w-full h-full object-cover"
+          src="/loginbg.jpg" // Replace with your image path
+          alt="Illustration"
+          className="absolute inset-0 w-full h-full object-cover"
         />
       </div>
-
     </div>
   );
 };

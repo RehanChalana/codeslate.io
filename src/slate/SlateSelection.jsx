@@ -85,17 +85,14 @@ const SlateSelection = () => {
       {/* Navigation */}
       <nav className="flex justify-between items-center px-8 py-4 pt-10 bg-black">
         <div className="space-x-4 flex items-center">
-          <div className="text-4xl font-semibold">
+          <div 
+          onClick={() => navigate("/")}
+          className="text-4xl font-semibold cursor-pointer"
+          >
             <span className="text-[#e2ff24]">&lt;/</span>
             <span className="text-white">codeslate.io</span>
             <span className="text-[#24fe41]">&gt;</span>
           </div>
-          <button className="bg-transparent border border-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-800">
-            ABOUT
-          </button>
-          <button className="bg-transparent border border-[#24fe41] text-[#24fe41] px-6 py-2 rounded-lg hover:bg-gray-800">
-            CONTACT US
-          </button>
         </div>
       </nav>
 
@@ -236,7 +233,10 @@ const SlateSelection = () => {
               <h2 className="text-white text-xl mb-4 font-semibold">Your Activity</h2>
               <div className="space-y-4">
                 {/* Activity Items */}
-                <div className="flex items-center space-x-4">
+                <div 
+                 onClick={() => navigate("/whiteboard")}
+                 className="flex items-center space-x-4 w-full text-left hover:bg-gray-800 p-2 rounded-lg transition cursor-pointer"
+              >
                   <div className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center text-white">
                     <FaChalkboard />
                   </div>

@@ -8,8 +8,11 @@ const VideoRoom = ({roomId}) => {
 
     
     const [remoteStream, setRemoteStream] = useState(new MediaStream())
-
+    const [localStream, setLocalStream] = useState(new MediaStream())
     const [streamArr, setStreamArr] = useState([]) 
+    const [isAudioMuted, setIsAudioMuted] = useState(false)
+    const [isVideoMuted, setIsVideoMuted] = useState(false)
+
 
     const janus = useRef(null)
     const pubHandleRef = useRef(null)
@@ -45,18 +48,55 @@ const VideoRoom = ({roomId}) => {
         }
     ]
 
+
+    const toggleAudio =() => {
+        if(localStream) {
+            const audioTrack = localStream.getAudioTracks()[0]
+            if(audioTrack) {
+                audioTrack.enabled = !audioTrack.enabled
+                setIsAudioMuted(!isAudioMuted)
+
+                pubHandleRef.current.send({
+                    message: {
+                        request: "configure",
+                        audio: audioTrack.enabled
+                    }
+                })
+            }
+        }
+    }
+
+    const toggleVideo = () => {
+        if (localStream) {
+            const videoTrack = localStream.getVideoTracks()[0];
+            if (videoTrack) {
+                videoTrack.enabled = !videoTrack.enabled;
+                setIsVideoMuted(!videoTrack.enabled);
+                
+                // Send configuration update to Janus
+                pubHandleRef.current?.send({
+                    message: {
+                        request: "configure",
+                        video: videoTrack.enabled
+                    }
+                });
+            }
+        }
+    };
+
     const sendOffer = () => {
         // getting user media
         navigator.mediaDevices.getUserMedia({
             video: true,
             audio: true
         }).then((stream) => {
+            setLocalStream(stream)
             localVideoRef.current.srcObject = stream
             // creating offer 
             pubHandleRef.current.createOffer({
                 tracks : [
-                    { type: 'audio', capture: true, recv: true },
-                    { type: 'video', capture: true, recv: true },
+                    { type: 'audio', capture: true, recv: true, mid: 1 },
+                    { type: 'video', capture: true, recv: true, mid: 2 },
                 ],
                 success: (jsep) => {
                     // sending the actual offer with udp
@@ -266,15 +306,30 @@ const VideoRoom = ({roomId}) => {
 
 
     return (
-        <div>
-            <div>
-                <video ref = {localVideoRef} autoPlay muted></video>
-            </div>
+        <div className="p-4">
+            <div className="flex flex-col gap-4">
+                <div className="relative">
+                    <video ref={localVideoRef} autoPlay muted className="w-full max-w-md border rounded-lg"></video>
+                    <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-4">
+                        <button 
+                            onClick={toggleAudio}
+                            className={`px-4 py-2 rounded-full ${isAudioMuted ? 'bg-red-500' : 'bg-green-500'} text-white`}
+                        >
+                            {isAudioMuted ? 'Unmute Audio' : 'Mute Audio'}
+                        </button>
+                        <button 
+                            onClick={toggleVideo}
+                            className={`px-4 py-2 rounded-full ${isVideoMuted ? 'bg-red-500' : 'bg-green-500'} text-white`}
+                        >
+                            {isVideoMuted ? 'Enable Video' : 'Disable Video'}
+                        </button>
+                    </div>
+                </div>
 
-            <div>
-                <video ref = {remoteVideoRef} autoPlay ></video>
+                <div>
+                    <video ref={remoteVideoRef} autoPlay className="w-full max-w-md border rounded-lg"></video>
+                </div>
             </div>
-
         </div>
     )
 }

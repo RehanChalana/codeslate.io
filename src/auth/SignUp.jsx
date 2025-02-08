@@ -5,7 +5,11 @@ import { useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 
 const Signup = () => {
-  const [formData, setFormData] = useState({ email: "", password: "", confirmPassword: "" });
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -25,9 +29,12 @@ const Signup = () => {
 
     setLoading(true);
     try {
-      const userCredential = await signUpWithEmail(formData.email, formData.password);
+      const userCredential = await signUpWithEmail(
+        formData.email,
+        formData.password
+      );
       localStorage.setItem("user", JSON.stringify(userCredential.user));
-      navigate("/");
+      navigate("/home");
     } catch (error) {
       setError(error.message);
     } finally {
@@ -42,7 +49,7 @@ const Signup = () => {
     try {
       const userCredential = await signInWithPopup(auth, googleProvider);
       localStorage.setItem("user", JSON.stringify(userCredential.user));
-      navigate("/");
+      navigate("/home");
     } catch (error) {
       setError(error.message);
     } finally {
@@ -56,7 +63,10 @@ const Signup = () => {
       <div className="flex-1 bg-[#000] text-white flex flex-col justify-center items-center p-8">
         <div className="bg-[#0e0e0e] p-8 rounded-xl shadow-lg max-w-md w-full flex flex-col gap-4">
           <div className="text-xl mb-6 text-center text-gradient text-[#999999]">
-            <div className="text-4xl text-center font-semibold text-gradient py-4">
+            <div
+              onClick={() => navigate("/")}
+              className="text-4xl text-center font-semibold text-gradient py-4 cursor-pointer"
+            >
               <span className="text-[#e2ff24]">&lt;/</span>
               <span className="text-white">codeslate.io</span>
               <span className="text-[#24fe41]">&gt;</span>
@@ -64,7 +74,7 @@ const Signup = () => {
             Create your account,
           </div>
           {error && <p className="text-red-500 text-center mb-4">{error}</p>}
-          
+
           <form onSubmit={handleSignup} className="flex flex-col gap-6">
             <input
               type="email"
@@ -98,7 +108,7 @@ const Signup = () => {
 
             <button
               type="submit"
-              className={`text-black px-12 py-3 rounded-md font-semibold text-xl hover:bg-green-600  bg-gradient-to-r from-[#e2ff24] to-[#24fe41] transition ${
+              className={`text-black px-12 py-3 rounded-md font-semibold cursor-pointer text-xl hover:bg-green-600  bg-gradient-to-r from-[#e2ff24] to-[#24fe41] transition ${
                 loading ? "opacity-50 cursor-not-allowed" : ""
               }`}
               disabled={loading}
@@ -106,11 +116,11 @@ const Signup = () => {
               {loading ? "Signing Up..." : "SIGN UP"}
             </button>
           </form>
-          
+
           <div className="mt-6">
             <button
               onClick={handleGoogleSignup}
-              className="w-full p-3 flex items-center justify-center gap-2 rounded-md font-semibold transition border border-[#24fe41] disabled:opacity-50"
+              className="w-full p-3 flex items-center cursor-pointer justify-center gap-2 rounded-md font-semibold transition border border-[#24fe41] disabled:opacity-50"
               disabled={loading}
             >
               <FcGoogle className="text-xl" />
@@ -120,7 +130,7 @@ const Signup = () => {
 
           <p className="text-center mt-4 text-gray-400">
             Already have an account?{" "}
-            <a href="/login" className="text-green-400 hover:underline">
+            <a href="/login" className="text-green-400 hover:underline cursor-pointer">
               Log In
             </a>
           </p>
