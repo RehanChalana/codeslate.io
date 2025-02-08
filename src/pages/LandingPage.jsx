@@ -26,7 +26,7 @@ const LandingPage = () => {
                         <span className="text-white">codeslate.io</span>
                         <span className="text-[#24fe41]">&gt;</span>
                     </div>
-                    <button
+                    {/* <button
                         className="bg-transparent border border-gray-600 text-white px-[5vh] py-2 h-11 rounded-[10px] hover:bg-gray-800"
                         onClick={handleLogin}
                     >
@@ -37,7 +37,8 @@ const LandingPage = () => {
                         onClick={handleLogin}
                     >
                         CONTACT US
-                    </button></div>
+                    </button> */}
+                    </div>
                 <div className="space-x-4">
                     <button
                         className="bg-transparent border border-[#24fe41] text-white px-7 h-11 rounded-md hover:bg-gray-800"
