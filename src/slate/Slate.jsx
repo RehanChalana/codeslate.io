@@ -16,7 +16,7 @@ const Slate = () => {
   const bindingRef = useRef(null);
   const providerRef = useRef(null);
 
-  const docRef = useRef(new Y.Doc()); 
+  const docRef = useRef(new Y.Doc());
   const doc = docRef.current;
 
   const yText = doc.getText("monaco");
@@ -48,10 +48,10 @@ const Slate = () => {
     });
 
     provider.on("status", (event) => {
-        if (event.status === "disconnected" && event.code === 4001) {
-          alert("Room is full. Please try another room.");
-        }
-      });
+      if (event.status === "disconnected" && event.code === 4001) {
+        alert("Room is full. Please try another room.");
+      }
+    });
 
     // Observe changes to the shared output text and update the local state
     const outputObserver = () => {
@@ -91,7 +91,7 @@ const Slate = () => {
   const handleEditorAfterMount = (editor, monaco) => {
     editorRef.current = editor;
     if (!bindingRef.current) {
-      
+
       bindingRef.current = new MonacoBinding(
         yText,
         editorRef.current.getModel(),
@@ -190,18 +190,25 @@ const Slate = () => {
     yTestResults.insert(0, testResultsArray);
   }
   return (
-    <div>
-      <div>
-        <select value={value.language} onChange={handleLanguageChange}>
+    <div className="bg-black">
+      <div className="flex justify-between">
+        <div className="text-4xl p-5 font-semibold text-gradient">
+          <span className="text-[#e2ff24]">&lt;/</span>
+          <span className="text-white">codeslate.io</span>
+          <span className="text-[#24fe41]">&gt;</span>
+        </div>
+        <select value={value.language} onChange={handleLanguageChange} className="w-30 bg-[#5e5e5e] h-10 m-5 p-2 rounded-2xl text-lg text-white font-semibold">
           <option value="javascript">JavaScript</option>
           <option value="java">Java</option>
           <option value="python">Python</option>
           <option value="cpp">C++</option>
           <option value="c">C</option>
         </select>
+
+
       </div>
 
-      <div style={{ width: "90%", height: "50vh" }}>
+      <div className="w-[100vw] h-[65vh]">
         <Editor
           height="100%"
           language={value.language}
@@ -212,25 +219,35 @@ const Slate = () => {
         />
       </div>
 
+      
+      <div className="bg-[#1e1e1e] flex text-[#999999] gap-3 p-2 mt-1">
+        <button className="border-2 p-1 rounded-lg" onClick={runCode}>
+          Run Code
+        </button>
+        <button className="border-2 p-1 rounded-lg"
+          onClick={runTests}
+        >
+          Run Tests
+        </button>
+        <button className="border-2 p-1 rounded-lg"
+          onClick={addTestCase}
+        >
+          Add Test Case
+        </button>
+      </div>
+
+      
+
       {/* Optional input field for code execution */}
-      <div style={{ marginTop: "10px" }}>
+      <div className="bg-[#1e1e1e] flex text-[#999999] gap-3 p-2 mt-1">
         <label>
           Standard Input:
-          <textarea
+          <textarea className="border-2"
             value={value.stdin}
             onChange={handleStdinChange}
             style={{ width: "100%", minHeight: "60px" }}
           />
         </label>
-      </div>
-
-      <div>
-        <button
-          onClick={addTestCase}
-          style={{ marginTop: "10px", padding: "8px", cursor: "pointer" }}
-        >
-          Add Test Case
-        </button>
       </div>
 
       {value.testCases.map((testCase, index) => (
@@ -257,18 +274,6 @@ const Slate = () => {
           </div>
         </div>
       ))}
-
-      <div style={{ marginTop: "10px", display: "flex", gap: "10px" }}>
-        <button onClick={runCode} style={{ padding: "8px", cursor: "pointer" }}>
-          Run Code
-        </button>
-        <button
-          onClick={runTests}
-          style={{ padding: "8px", cursor: "pointer" }}
-        >
-          Run Tests
-        </button>
-      </div>
 
       <div
         style={{
@@ -305,7 +310,7 @@ const Slate = () => {
       </div>
 
       <div style={{ height: "96vh", width: "70vw" }}>
-          <ExcalidrawEditor roomId={roomId}/>
+        <ExcalidrawEditor roomId={roomId} />
       </div>
     </div>
   );
