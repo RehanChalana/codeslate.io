@@ -307,6 +307,8 @@ const Slate = () => {
       <div style={{ height: "96vh", width: "70vw" }}>
           <ExcalidrawEditor roomId={roomId}/>
       </div>
+
+      <VideoRoom roomId={roomId}/>
     </div>
   );
 };
