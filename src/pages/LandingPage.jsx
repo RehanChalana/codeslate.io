@@ -84,9 +84,9 @@ const LandingPage = () => {
 
             {/* Additional Section */}
             <div className="text-left pt-24 pl-[25vw] bg-[#141414] w-[95vw] h-[70vh] mr-[11vw] ">
-                    <h3 className="bg-gradient-to-r from-[#e2ff24] to-[#24fe41] text-transparent bg-clip-text text-9xl font-bold">
-                        &lt;/Code&gt;
-                    </h3>
+                <h3 className="bg-gradient-to-r from-[#e2ff24] to-[#24fe41] text-transparent bg-clip-text text-9xl font-bold">
+                    &lt;/Code&gt;
+                </h3>
                 <h3 className="bg-gradient-to-r from-[#e2ff24] to-[#24fe41] text-transparent bg-clip-text text-9xl font-bold">
                     &lt;/Connect&gt;
                 </h3>
@@ -145,41 +145,44 @@ const LandingPage = () => {
             </div>
 
             {/* Why Codeslate Section */}
-            <div className="mt-16 px-8">
-                <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center">Why codeslate.io?</h2>
-                <div className="grid md:grid-cols-3 gap-8">
-                    <div className="bg-gray-800 p-6 rounded-lg">
-                        <h3 className="text-xl font-bold mb-2">Why interview without a compiler?</h3>
-                        <p className="text-gray-400">
+            <div className="pl-50 pr-40 pt-20 bg-[#141414] w-[95vw] mr-[11vw]">
+                <h2 className="md:text-6xl font-semibold  mb-8 tracking-wider text-left">Why codeslate.io?</h2>
+                <div className="grid md:grid-cols-3 gap-3 mt-15">
+                    <div className="bg-[#1f1f1f] p-6 rounded-2xl pb-10 w-90">
+                        <h3 className="text-3xl mt-2 font-semibold mb-2">Why interview without a compiler?</h3>
+                        <p className="text-gray-400 text-2xl mt-10 tracking-wider">
                             Codeslate.io is an online code interview tool that empowers both candidates and interviewers to solve coding problems in real-time with an online code editor and compilers for all popular languages.
                         </p>
+                        <p className="text-[#525252] text-5xl text-right mt-5 font-bold tracking-wider">&lt;/&gt;</p>
                     </div>
-                    <div className="bg-gray-800 p-6 rounded-lg">
-                        <h3 className="text-xl font-bold mb-2 text-green-500">Intuitive Coding Interface</h3>
-                        <p className="text-gray-400">
+                    <div className="bg-[#1f1f1f] p-6 rounded-2xl pb-10 w-90">
+                        <h3 className="text-3xl mt-2 font-semibold mb-2">Intuitive Coding Interface</h3>
+                        <p className="text-gray-400 text-2xl mt-10 tracking-wider">
                             A seamless, developer-friendly environment to write, compile, and run code efficiently. Easily switch between dark and light mode for a comfortable experience.
                         </p>
+                        <p className="text-[#525252] text-5xl text-right mt-5 font-bold tracking-wider relative top-18">&lt;/&gt;</p>
                     </div>
-                    <div className="bg-gray-800 p-6 rounded-lg">
-                        <h3 className="text-xl font-bold mb-2">Ready to Use</h3>
-                        <p className="text-gray-400">
+                    <div className="bg-[#1f1f1f] p-6 rounded-2xl pb-10 w-90">
+                        <h3 className="text-3xl mt-2 font-semibold mb-2">Ready to Use</h3>
+                        <p className="text-gray-400 text-2xl mt-10 tracking-wider">
                             Conduct coding interviews instantly without requiring candidates to install an IDE or additional software. Simply create an interview, share the link, and start coding in a fully equipped online environment.
                         </p>
+                        <p className="relative top-11 text-[#525252] text-5xl text-right mt-5 font-bold tracking-wider">&lt;/&gt;</p>
                     </div>
                 </div>
             </div>
 
             {/* Technology Stack Section */}
-            <div className="mt-16 px-8">
-                <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center">Technology Stack</h2>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-8 justify-items-center">
+            <div className="pl-50 pr-40 pt-20 bg-[#141414] w-[95vw] mr-[11vw]">
+                <h2 className="md:text-6xl font-semibold  mb-8 tracking-wider text-left">Supported Languages</h2>
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-8 justify-items-center ">
                     <div className="flex flex-col items-center">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/3/38/HTML5_Badge.svg" alt="HTML5" className="h-16 mb-2" />
-                        <span className="text-gray-400">HTML5</span>
+                        <span className="text-gray-400">JAVA</span>
                     </div>
                     <div className="flex flex-col items-center">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/6/62/CSS3_logo.svg" alt="CSS3" className="h-16 mb-2" />
-                        <span className="text-gray-400">CSS3</span>
+                        <span className="text-gray-400">C++</span>
                     </div>
                     <div className="flex flex-col items-center">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png" alt="JavaScript" className="h-16 mb-2" />
@@ -187,69 +190,70 @@ const LandingPage = () => {
                     </div>
                     <div className="flex flex-col items-center">
                         <img src="https://d1.awsstatic.com/logos/aws-rds/Amazon-RDS_Logo_Horizontal.61666a25575b43cfb57269d66a6a38c9.png" alt="Amazon RDS" className="h-16 mb-2" />
-                        <span className="text-gray-400">Amazon RDS</span>
+                        <span className="text-gray-400">C</span>
                     </div>
                     <div className="flex flex-col items-center">
                         <img src="https://d1.awsstatic.com/logos/aws-er-graphics/Amazon-EventBridge-CloudWatch-Logs-Icon.e05b9e1a4c48d52657226a61554eabdd.png" alt="Amazon ERC" className="h-16 mb-2" />
-                        <span className="text-gray-400">Amazon ERC</span>
-                    </div>
-                    <div className="flex flex-col items-center">
-                        <img src="https://d1.awsstatic.com/logos/aws-cloudformation/AWS-CloudFormation_Icon.4b23f8b1f28d79b70cd8e8d7bb4a2f26.png" alt="AWS CloudFormation" className="h-16 mb-2" />
-                        <span className="text-gray-400">AWS CloudFormation</span>
-                    </div>
-                    <div className="flex flex-col items-center">
-                        <img src="https://cdn.worldvectorlogo.com/logos/apache-kafka.svg" alt="Kafka" className="h-16 mb-2" />
-                        <span className="text-gray-400">Kafka</span>
+                        <span className="text-gray-400">Python</span>
                     </div>
                 </div>
             </div>
 
             {/* Footer Section */}
-            <footer className="w-full bg-black text-white mt-16 py-8 px-8">
-                <div className="text-center mb-8">
-                    <h2 className="text-2xl font-bold">Want to Interview with us?</h2>
-                    <p className="text-gray-400 mt-2">
+            <footer className="pl-51 pr-40 pt-20 bg-[#141414] w-[95vw] mr-[11vw]">
+                <div className="mb-8 pl-[40vw]">
+                    <p className="text-gray-400 text-lg" >CONTACT US</p>
+                    <h2 className="md:text-6xl font-semibold  mb-8 w-[40vw] tracking-wider text-left">Want to Interview with us?</h2>
+                    <p className="text-gray-400 mt-2 w-[35vw] md:text-2xl">
                         Streamline your technical hiring process with our powerful coding interview platform. Collaborate, evaluate, and hire the best talent—all in one place.
                     </p>
                 </div>
-                <form className="text-center mb-8">
-                    <input
-                        type="text"
-                        placeholder="Name"
-                        className="w-full md:w-1/3 p-2 mb-4 bg-gray-800 text-white border border-gray-600 rounded"
-                    />
-                    <input
-                        type="email"
-                        placeholder="Email"
-                        className="w-full md:w-1/3 p-2 mb-4 bg-gray-800 text-white border border-gray-600 rounded"
-                    />
-                    <textarea
-                        placeholder="Project details (optional)"
-                        className="w-full md:w-1/3 p-2 mb-4 bg-gray-800 text-white border border-gray-600 rounded"
-                    ></textarea>
-                    <button
-                        type="submit"
-                        className="bg-green-500 text-black px-6 py-2 rounded-md font-semibold hover:bg-green-600"
-                    >
-                        Send
-                    </button>
-                </form>
-                <div className="text-center">
-                    <div className="mb-4">
-                        <p className="text-gray-400">PROJECT INQUIRIES</p>
-                        <p className="text-gray-400">madhav1335.be23@chitkara.edu.in</p>
+                <div className="flex gap-15">
+                    <div className="text-left">
+                        <div className="flex gap-5">
+                        <div className="mb-4">
+                            <p className="text-gray-400 text-lg pb-2">PROJECT INQUIRIES</p>
+                            <p className="text-white">madhav1335.be23@chitkara.edu.in</p>
+                        </div>
+                        <div className="mb-4">
+                            <p className="text-gray-400 text-lg pb-2 ">CAREERS</p>
+                            <p className="text-white">Chitkara University</p>
+                        </div>
+                        </div>
+                        <div>
+
+                        <p className="text-gray-400 text-lg pb-3">FOLLOW US</p>
+                            <div className="flex space-x-4">
+                                <a href="#" className="text-gray-400">Instagram</a>
+                                <a href="#" className="text-gray-400">Facebook</a>
+                                <a href="#" className="text-gray-400">LinkedIn</a>
+                                <a href="#" className="text-gray-400">Twitter</a>
+                            </div>
+                        </div>
                     </div>
-                    <div className="mb-4">
-                        <p className="text-gray-400">CAREERS</p>
-                        <p className="text-gray-400">Chitkara University</p>
-                    </div>
-                    <div className="flex justify-center space-x-4">
-                        <a href="#" className="text-gray-400">Instagram</a>
-                        <a href="#" className="text-gray-400">Facebook</a>
-                        <a href="#" className="text-gray-400">LinkedIn</a>
-                        <a href="#" className="text-gray-400">Twitter</a>
-                    </div>
-                    <p className="text-gray-400 mt-4">© 2022 SoftKit. All Rights Reserved</p>
+                    <form className="text-left mb-8 pl-[14vw]">
+                        <input
+                            type="text"
+                            placeholder="Name"
+                            className="w-full md:w-1/2 p-2 mb-4 transparent text-white border-b-1 border-[#3d3d3d] rounded placeholder-white"
+                        />
+                        <input
+                            type="email"
+                            placeholder="Email"
+                            className="w-full md:w-1/2 p-2 mb-4 transparent text-white border-b-1 border-[#3d3d3d] rounded placeholder-white"
+                        />
+                        <textarea
+                            placeholder="Project details (optional)"
+                            className="w-full p-2 mb-4 transparent text-white border-b-1 border-[#3d3d3d] rounded placeholder-white"
+                        ></textarea>
+                        <button
+                            type="submit"
+                            className="bg-green-500 text-black px-20 py-4 rounded-md font-semibold hover:bg-green-600"
+                        >
+                            SEND
+                        </button>
+
+                    </form>
                 </div>
             </footer>
         </div>
