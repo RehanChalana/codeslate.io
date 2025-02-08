@@ -24,8 +24,8 @@ const VideoRoom = ({roomId}) => {
     const turnServerUsername = import.meta.env.VITE_TURN_SERVER_USERNAME
     const turnServerPassword = import.meta.env.VITE_TURN_SERVER_PASSWORD
 
-    // const janusUrl = "ws://per-deaf.gl.at.ply.gg:49435"
-    const janusUrl = "ws://172.28.24.133:8188"
+    const janusUrl = "ws://per-deaf.gl.at.ply.gg:49435"
+    // const janusUrl = "ws://172.28.24.133:8188"
 
     if(remoteStream.getTracks().length > 0) {
         remoteVideoRef.current.srcObject = remoteStream
