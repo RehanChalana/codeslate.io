@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.0.4",
+    "codeslate.io": "file:",
     "dotenv": "^16.4.7",
     "janus-gateway": "^1.3.0",
     "react": "^19.0.0",
