@@ -10,11 +10,14 @@ import ExcalidrawEditor from "./ExcalidrawEditor";
 const URL = `${import.meta.env.VITE_APP_SERVER}`;
 
 const Slate = () => {
-
   const { roomId } = useParams();
   const editorRef = useRef(null);
   const bindingRef = useRef(null);
   const providerRef = useRef(null);
+
+  const [showTestCases, setShowTestCases] = useState(true);
+  const [showOutput, setShowOutput] = useState(false);
+  const [showTestResults, setShowTestResults] = useState(false);
 
   const docRef = useRef(new Y.Doc());
   const doc = docRef.current;
@@ -36,7 +39,7 @@ const Slate = () => {
 
   useEffect(() => {
     providerRef.current = new WebsocketProvider(
-      'ws://localhost:1234',
+      "ws://localhost:1234",
       `${roomId}`,
       doc
     );
@@ -91,7 +94,6 @@ const Slate = () => {
   const handleEditorAfterMount = (editor, monaco) => {
     editorRef.current = editor;
     if (!bindingRef.current) {
-
       bindingRef.current = new MonacoBinding(
         yText,
         editorRef.current.getModel(),
@@ -121,6 +123,7 @@ const Slate = () => {
   // Adds a new empty test case.
   function addTestCase() {
     yTestCases.push([{ input: "", expectedOutput: "" }]);
+    setShowTestCases(true);
   }
 
   // Renamed the third parameter to newVal.
@@ -137,6 +140,11 @@ const Slate = () => {
   async function runCode() {
     try {
       // Use the value.stdin if provided; otherwise send an empty string.
+
+      setShowTestCases(false);
+      setShowOutput(true);
+      setShowTestResults(false);
+
       const response = await axios.post(`${URL}/execute`, {
         code: value.code,
         language: value.language,
@@ -162,6 +170,10 @@ const Slate = () => {
 
   async function runTests() {
     // Accumulate all test results locally.
+    setShowTestCases(false);
+    setShowTestResults(true);
+    setShowOutput(false);
+
     const testResultsArray = [];
     for (const [index, testCase] of value.testCases.entries()) {
       try {
@@ -189,26 +201,33 @@ const Slate = () => {
     yTestResults.delete(0, yTestResults.length);
     yTestResults.insert(0, testResultsArray);
   }
+
+  const deleteTestCase = (index) => {
+    yTestCases.delete(index, 1);
+  };
+
   return (
-    <div className="bg-black">
-      <div className="flex justify-between">
-        <div className="text-4xl p-5 font-semibold text-gradient">
+    <div className="bg-[#24fe41]">
+      <div className="flex justify-between mb-[1px] bg-[#141414f9]">
+        <div className="text-3xl p-5 font-semibold text-gradient">
           <span className="text-[#e2ff24]">&lt;/</span>
           <span className="text-white">codeslate.io</span>
           <span className="text-[#24fe41]">&gt;</span>
         </div>
-        <select value={value.language} onChange={handleLanguageChange} className="w-30 bg-[#5e5e5e] h-10 m-5 p-2 rounded-2xl text-lg text-white font-semibold">
+        <select
+          value={value.language}
+          onChange={handleLanguageChange}
+          className="w-40 bg-[#141414de] h-10 m-5 p-2 px-4 rounded-md text-lg text-white"
+        >
           <option value="javascript">JavaScript</option>
           <option value="java">Java</option>
           <option value="python">Python</option>
           <option value="cpp">C++</option>
           <option value="c">C</option>
         </select>
-
-
       </div>
 
-      <div className="w-[100vw] h-[65vh]">
+      <div className="w-[100%] h-[65vh]">
         <Editor
           height="100%"
           language={value.language}
@@ -216,100 +235,114 @@ const Slate = () => {
           theme="vs-dark"
           onChange={handleEditorChange}
           onMount={handleEditorAfterMount}
+          options={{
+            fontSize: 16, // Increase text size
+          }}
         />
       </div>
 
-      
-      <div className="bg-[#1e1e1e] flex text-[#999999] gap-3 p-2 mt-1">
-        <button className="border-2 p-1 rounded-lg" onClick={runCode}>
+      <div className="bg-[#1e1e1e] flex gap-4 p-4 mt-[1px]">
+        <button
+          className="border-1 p-2 px-3 rounded-md bg-[#e2ff24]"
+          onClick={runCode}
+        >
           Run Code
         </button>
-        <button className="border-2 p-1 rounded-lg"
+        <button
+          className="border-1 p-2 px-3 rounded-md bg-[#e2ff24]"
           onClick={runTests}
         >
           Run Tests
         </button>
-        <button className="border-2 p-1 rounded-lg"
+        <button
+          className="border-1 p-2 px-3 rounded-md bg-[#e2ff24]"
           onClick={addTestCase}
         >
           Add Test Case
         </button>
       </div>
 
-      
-
       {/* Optional input field for code execution */}
-      <div className="bg-[#1e1e1e] flex text-[#999999] gap-3 p-2 mt-1">
-        <label>
-          Standard Input:
-          <textarea className="border-2"
+
+      <div className="flex gap-10 w-[100%] p-4 px-10 bg-[#1e1e1e] border border-gray-700 items-center justify-center">
+        <div className="flex-30 flex flex-col">
+          <input
+            className="w-[80%] p-3 bg-[#111]/80 text-white rounded-sm focus:outline-none focus:ring-2 focus:ring-[#e2ff24] transition-all duration-200"
             value={value.stdin}
+            placeholder="Enter standard input..."
             onChange={handleStdinChange}
-            style={{ width: "100%", minHeight: "60px" }}
           />
-        </label>
-      </div>
-
-      {value.testCases.map((testCase, index) => (
-        <div key={index} style={{ marginTop: "10px" }}>
-          <div>
-            <label>Input:</label>
-            <textarea
-              value={testCase.input}
-              onChange={(e) =>
-                handleTestCaseChange(index, "input", e.target.value)
-              }
-              style={{ width: "100%", minHeight: "80px" }}
-            />
-          </div>
-          <div>
-            <label>Expected Output:</label>
-            <textarea
-              value={testCase.expectedOutput}
-              onChange={(e) =>
-                handleTestCaseChange(index, "expectedOutput", e.target.value)
-              }
-              style={{ width: "100%", minHeight: "80px" }}
-            />
-          </div>
         </div>
-      ))}
+      </div>
 
-      <div
-        style={{
-          marginTop: "10px",
-          padding: "10px",
-          background: "#f4f4f4",
-          borderRadius: "5px",
-        }}
-      >
-        <h3>Test Results:</h3>
-        <ul>
-          {value.testResults.map((result, index) => (
-            <li
-              key={index}
-              style={{ color: result.result === "Passed" ? "green" : "red" }}
+      {showTestCases &&
+        value.testCases.map((testCase, index) => (
+          <div
+            key={index}
+            className="flex gap-10 w-[100%] p-4 px-10 bg-[#1e1e1e] border border-gray-700
+                      items-center justify-center"
+          >
+            <div className="flex-1 text-white">{index + 1}.</div>
+            <div className="flex-30 flex flex-col">
+              <input
+                className="w-[100%] p-3 bg-[#111]/80 text-white rounded-sm focus:outline-none focus:ring-2 focus:ring-[#e2ff24] transition-all duration-200"
+                value={testCase.input}
+                placeholder="Input:"
+                onChange={(e) =>
+                  handleTestCaseChange(index, "input", e.target.value)
+                }
+              />
+            </div>
+            <div className="flex-30 flex flex-col">
+              <input
+                className="w-[100%] p-3 bg-[#111]/80 text-white rounded-sm focus:outline-none focus:ring-2 focus:ring-[#e2ff24] transition-all duration-200"
+                value={testCase.expectedOutput}
+                placeholder="Expected Output:"
+                onChange={(e) =>
+                  handleTestCaseChange(index, "expectedOutput", e.target.value)
+                }
+              />
+            </div>
+            <button
+              className="border-1 p-2 px-3 rounded-md bg-red-500 text-white hover:bg-red-700"
+              onClick={() => deleteTestCase(index)}
             >
-              <strong>Test {result.testCaseIndex + 1}:</strong> {result.result}{" "}
-              - {result.output}
-            </li>
-          ))}
-        </ul>
-      </div>
+              Delete
+            </button>
+          </div>
+        ))}
 
-      <div
-        style={{
-          marginTop: "10px",
-          padding: "10px",
-          background: "#f4f4f4",
-          borderRadius: "5px",
-        }}
-      >
-        <h3>Output:</h3>
-        <pre>{value.output || "Hello there"}</pre>
-      </div>
+      {showTestResults && (
+        <div className="mt-4 p-4 bg-[#f4f4f4] rounded-md">
+          <h3 className="text-lg font-semibold">Test Results:</h3>
+          <ul>
+            {value.testResults.map((result, index) => (
+              <li
+                key={index}
+                className={
+                  result.result === "Passed" ? "text-green-500" : "text-red-500"
+                }
+              >
+                <strong>Test {result.testCaseIndex + 1}:</strong>{" "}
+                {result.result} - {result.output}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
-      <div style={{ height: "96vh", width: "70vw" }}>
+      {(
+        <div className="mt-4 p-4 bg-[#f4f4f4] rounded-md">
+          <h3 className="text-lg font-semibold">Output:</h3>
+          <pre>{value.output || "Hello there"}</pre>
+        </div>
+      )}
+
+      <h1>
+        White Board
+      </h1>
+
+      <div style={{ height: "96vh", width: "100%" }}>
         <ExcalidrawEditor roomId={roomId} />
       </div>
     </div>
