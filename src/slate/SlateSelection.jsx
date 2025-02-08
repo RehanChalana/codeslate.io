@@ -23,7 +23,26 @@ const SlateSelection = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen space-y-4">
+    <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center">
+      <nav className="w-full flex justify-between items-center px-8 py-4 bg-black m-5">
+        <div className="space-x-4 flex">
+          <div className="text-4xl text-center font-semibold text-gradient">
+            <span className="text-[#e2ff24]">&lt;/</span>
+            <span className="text-white">codeslate.io</span>
+            <span className="text-[#24fe41]">&gt;</span>
+          </div>
+          <button
+            className="bg-transparent border border-gray-600 text-white px-[5vh] py-2 h-11 rounded-[10px] hover:bg-gray-800"
+          >
+            ABOUT
+          </button>
+          <button
+            className="bg-transparent border border-gray-600 text-white px-6 py-2 h-11 rounded-[10px] hover:bg-gray-800"
+          >
+            CONTACT US
+          </button>
+        </div>
+      </nav>
       <button
         onClick={createRoom}
         className="px-4 py-2 bg-blue-500 text-white rounded-lg shadow-lg hover:bg-blue-600"
