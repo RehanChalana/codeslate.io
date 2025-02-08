@@ -84,7 +84,7 @@ const LandingPage = () => {
 
             {/* Additional Section */}
             <div className="text-left pt-24 pl-[25vw] bg-[#141414] w-[95vw] h-[70vh] mr-[11vw] ">
-                <h3 className="bg-gradient-to-r from-[#e2ff24] to-[#24fe41] text-transparent bg-clip-text text-9xl font-bold">
+                <h3 className="bg-gradient-to-r from-[#e2ff24] to-[#24fe41] text-transparent bg-clip-text text-9xl font-bold opacity">
                     &lt;/Code&gt;
                 </h3>
                 <h3 className="bg-gradient-to-r from-[#e2ff24] to-[#24fe41] text-transparent bg-clip-text text-9xl font-bold">
