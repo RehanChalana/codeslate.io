@@ -1,19 +1,28 @@
+import { useNavigate } from "react-router-dom";
+
 const LandingPage = () => {
+
+    const navigate = useNavigate();
 
     const handleLogin = () => {
         console.log("Login button clicked");
+        navigate("/login")
     };
 
     const handleSignUp = () => {
         console.log("Sign Up button clicked");
+        navigate("/signup")
     };
 
     const handleGoPremium = () => {
         console.log("Go Premium button clicked");
+        navigate("/login")
+        
     };
 
     const handleStartForFree = () => {
         console.log("Start for Free button clicked");
+        navigate("/login")
     };
 
     return (
@@ -41,13 +50,13 @@ const LandingPage = () => {
                     </div>
                 <div className="space-x-4">
                     <button
-                        className="bg-transparent border border-[#24fe41] text-white px-7 h-11 rounded-md hover:bg-gray-800"
+                        className="bg-transparent border cursor-pointer border-[#24fe41] text-white px-7 h-11 rounded-md hover:bg-gray-800"
                         onClick={handleLogin}
                     >
                         LOGIN
                     </button>
                     <button
-                        className="bg-gradient-to-r from-[#e2ff24] to-[#24fe41] text-black px-[2.5vh] h-11 rounded-md hover:bg-green-600 font-medium text-sm"
+                        className="bg-gradient-to-r from-[#e2ff24] to-[#24fe41] cursor-pointer text-black px-[2.5vh] h-11 rounded-md hover:bg-green-600 font-medium text-sm"
                         onClick={handleSignUp}
                     >
                         SIGN UP
@@ -69,13 +78,13 @@ const LandingPage = () => {
                 </p>
                 <div className="flex space-x-4 mt-14 justify-center">
                     <button
-                        className="bg-gradient-to-r from-[#e2ff24] to-[#24fe41] text-black px-12 py-3 rounded-md text-xl font-medium hover:bg-green-600 "
+                        className="bg-gradient-to-r from-[#e2ff24] to-[#24fe41] text-black px-12 py-3 rounded-md text-xl font-medium hover:bg-green-600 cursor-pointer "
                         onClick={handleGoPremium}
                     >
                         GO PREMIUM
                     </button>
                     <button
-                        className="bg-transparent border border-gray-600 text-white px-12 py-3 rounded-md text-lg mr-40 font-semibold hover:bg-gray-800"
+                        className="bg-transparent border cursor-pointer border-gray-600 text-white px-12 py-3 rounded-md text-lg mr-40 font-semibold hover:bg-gray-800"
                         onClick={handleStartForFree}
                     >
                         START FOR FREE
@@ -85,10 +94,10 @@ const LandingPage = () => {
 
             {/* Additional Section */}
             <div className="text-left pt-24 pl-[25vw] bg-[#141414] w-[95vw] h-[70vh] mr-[11vw] ">
-                <h3 className="bg-gradient-to-r from-[#e2ff24] to-[#24fe41] text-transparent bg-clip-text text-9xl font-bold opacity">
+                <h3 className="bg-gradient-to-r from-[#e2ff24] to-[#24fe41] text-transparent bg-clip-text text-9xl font-bold opacity-60">
                     &lt;/Code&gt;
                 </h3>
-                <h3 className="bg-gradient-to-r from-[#e2ff24] to-[#24fe41] text-transparent bg-clip-text text-9xl font-bold">
+                <h3 className="bg-gradient-to-r from-[#e2ff24] to-[#24fe41] text-transparent bg-clip-text text-9xl font-bold opacity-80">
                     &lt;/Connect&gt;
                 </h3>
                 <h3 className="bg-gradient-to-r from-[#e2ff24] to-[#24fe41] text-transparent bg-clip-text text-9xl font-bold">
@@ -102,43 +111,43 @@ const LandingPage = () => {
                 <div className="grid md:grid-cols-3 gap-3 mt-15">
                     <div className="bg-[#1f1f1f] p-6 rounded-2xl pb-10 w-90">
                         <div className="text-green-500 text-6xl mb-4">📹</div>
-                        <h3 className="text-3xl mt-10 font-semibold mb-2">Audio and Video</h3>
-                        <p className="text-gray-400 text-2xl mt-10 tracking-wider">
+                        <h3 className="text-3xl mt-10">Audio and Video</h3>
+                        <p className="text-gray-400 text-xl mt-4 tracking-wider">
                             Conduct live discussions with candidates via audio and video. Explain technical concepts, review their solutions, and assess communication skills as if you were in a real interview setting.
                         </p>
                     </div>
                     <div className="bg-[#1f1f1f] p-6 rounded-2xl pb-10 w-90">
                         <div className="text-green-500 text-6xl mb-4">📋</div>
-                        <h3 className="text-3xl mt-10 font-semibold mb-2">Custom Test Cases</h3>
-                        <p className="text-gray-400 text-2xl mt-10 tracking-wider">
+                        <h3 className="text-3xl mt-10">Custom Test Cases</h3>
+                        <p className="text-gray-400 text-xl mt-4 tracking-wider">
                             Allow interviewers to define and run custom test cases to evaluate a candidate’s code against specific edge cases and real-world scenarios. Ensure accuracy, efficiency, and robustness in their solutions.
                         </p>
                     </div>
                     <div className="bg-[#1f1f1f] p-6 rounded-2xl pb-10 w-90">
                         <div className="text-green-500 text-6xl mb-4">🖊️</div>
-                        <h3 className="text-3xl mt-10 font-semibold mb-2">Whiteboard Mode</h3>
-                        <p className="text-gray-400 text-2xl mt-10 tracking-wider">
+                        <h3 className="text-3xl mt-10">Whiteboard Mode</h3>
+                        <p className="text-gray-400 text-xl mt-4 tracking-wider">
                             Engage in real-time problem-solving with an interactive whiteboard. Illustrate concepts, write algorithms, and collaborate visually to evaluate candidates’ approach to challenges.
                         </p>
                     </div>
                     <div className="bg-[#1f1f1f] p-6 rounded-2xl pb-10 w-90">
                         <div className="text-green-500 text-6xl mb-4">📝</div>
-                        <h3 className="text-3xl mt-10 font-semibold mb-2">Private Notes</h3>
-                        <p className="text-gray-400 text-2xl mt-10 tracking-wider">
+                        <h3 className="text-3xl mt-10">Private Notes</h3>
+                        <p className="text-gray-400 text-xl mt-4 tracking-wider">
                             Take notes as you interview the candidate so you can review and compare later. These are only available to you and your team.
                         </p>
                     </div>
                     <div className="bg-[#1f1f1f] p-6 rounded-2xl pb-10 w-90">
                         <div className="text-green-500 text-6xl mb-4">🔗</div>
-                        <h3 className="text-3xl mt-10 font-semibold mb-2">Invite via Link</h3>
-                        <p className="text-gray-400 text-2xl mt-10 tracking-wider">
+                        <h3 className="text-3xl mt-10">Invite via Link</h3>
+                        <p className="text-gray-400 text-xl mt-4 tracking-wider">
                             Copy and share the interview URL in advance or invite candidates via email once you start.
                         </p>
                     </div>
                     <div className="bg-[#1f1f1f] p-6 rounded-2xl pb-10 w-90">
                         <div className="text-green-500 text-6xl mb-4">💻</div>
-                        <h3 className="text-3xl mt-10 font-semibold mb-2">Real-time Environment</h3>
-                        <p className="text-gray-400 text-2xl mt-10 tracking-wider">
+                        <h3 className="text-3xl mt-10">Real-time Environment</h3>
+                        <p className="text-gray-400 text-xl mt-4 tracking-wider">
                             Provide a built-in coding editor for candidates to write, compile, and run code in real-time, supporting multiple programming languages.
                         </p>
                     </div>
