@@ -7,8 +7,10 @@ const VideoRoom = ({roomId}) => {
     console.log(roomId)
 
     
-    const [subscriptions, setSubscriptions] = useState([])
     const [remoteStream, setRemoteStream] = useState(new MediaStream())
+    const [remoteScreen, setRemoteScreen] = useState(new MediaStream())
+
+    const [streamArr, setStreamArr] = useState([]) 
 
     const janus = useRef(null)
     const pubHandleRef = useRef(null)
@@ -18,15 +20,19 @@ const VideoRoom = ({roomId}) => {
     const localScreenRef = useRef(null)
     const remoteScreenRef = useRef(null)
     const pubScreenRef = useRef(null)
-    const subScreenRef = useRef(null)
 
     const turnServerUsername = import.meta.env.VITE_TURN_SERVER_USERNAME
     const turnServerPassword = import.meta.env.VITE_TURN_SERVER_PASSWORD
 
-    const janusUrl = "ws://per-deaf.gl.at.ply.gg:49435"
+    // const janusUrl = "ws://per-deaf.gl.at.ply.gg:49435"
+    const janusUrl = "ws://172.28.24.133:8188"
 
     if(remoteStream.getTracks().length > 0) {
         remoteVideoRef.current.srcObject = remoteStream
+    }
+
+    if(remoteScreen.getTracks().length > 0) {
+        remoteScreenRef.current.srcObject = remoteScreen
     }
 
     // defining stun and turn servers to be used in janus
@@ -94,7 +100,6 @@ const VideoRoom = ({roomId}) => {
                 prevStream.getTracks().forEach(t => newStream.addTrack(t));
                 // Add the new track
                 newStream.addTrack(track);
-                console.log("track added: ", track);
                 return newStream;
             });
         } else {
@@ -106,33 +111,56 @@ const VideoRoom = ({roomId}) => {
                         newStream.addTrack(t);
                     }
                 });
-                console.log("track removed: ", track);
                 return newStream;
             });
         }
     };
+
+    const handleRemoteScreen = (track, mid, added, metadata) => {
+        if(added) {
+            setRemoteScreen(prevStream => {
+                const newStream = new MediaStream();
+                // Add any existing tracks from the previous stream
+                prevStream.getTracks().forEach(t => newStream.addTrack(t));
+                // Add the new track
+                newStream.addTrack(track);
+
+                return newStream;
+            })
+        } else {
+            setRemoteScreen(prevStream => {
+                const newStream = new MediaStream();
+                prevStream.getTracks().forEach(t => {
+                    if (t !== track) {
+                        newStream.addTrack(t);
+                    }
+                });
+                
+                return newStream;
+            })
+        }
+    }
     
     const handleNewPublishers = (publisher) => {
-        if(!subHandleRef.current) return
+        if(!subHandleRef.current) {
+            joinAsSubscriber(publisher)
+            return
+        }
 
-        console.log("New Publishers", publisher)
 
-        const newSubscriptions = [...subscriptions]
-
-        const streams = publisher.map((pub) => {
-            newSubscriptions.push(pub.id)
+        let newStreams = publisher.map((pub) => {
             return {feed : pub.id}
         })
 
-        setSubscriptions(newSubscriptions)
+
+
 
         subHandleRef.current.send({
             message: {
-                request: "join",
-                ptype: "subscriber",
-                room: roomId,
-                streams
-            }
+                request: "subscribe",
+                streams: newStreams
+            },
+            
         })
     }
 
@@ -187,15 +215,14 @@ const VideoRoom = ({roomId}) => {
                 
             },
             onmessage: (msg, jsep) => {
-                console.log(msg)
-                if(msg.exists) {
-                    console.log(msg)
-                    
-                }
+
                 // send offer if room is joined
-                else if(msg.videoroom === "joined") {
+                if(msg.videoroom === "joined") {
                     sendOffer()
-                    joinAsSubscriber(msg.publishers)
+                    if(msg.publishers && msg.publishers.length > 0) {
+                        joinAsSubscriber(msg.publishers)
+                    }
+                    
                 } else if(jsep) {
                     pubHandleRef.current.handleRemoteJsep({jsep : jsep})
                 } else if(msg.publishers) {
@@ -206,15 +233,14 @@ const VideoRoom = ({roomId}) => {
     }
 
     const joinAsSubscriber = (publishers) => {
-        const newSubscriptions = []
+
+        if(publishers.length == 0) return
         console.log(publishers)
         // creating streams array that will be used to subscribe 
         const streams = publishers.map((pub) => {
-            newSubscriptions.push(pub.id)
             return ({feed : pub.id})
         })
-
-        setSubscriptions(newSubscriptions)
+        setStreamArr(streams)
 
         janus.current.attach({
             plugin: "janus.plugin.videoroom",
@@ -237,11 +263,18 @@ const VideoRoom = ({roomId}) => {
                 } else if(msg.started === "ok") {
                     console.log("WebRTC Connection established for subscription")
                 } else {
-                    console.log("jajaj",msg)
+                    console.log("sub handle got a message",msg)
                 }
             },
             onremotetrack: (track, mid, added, metadata) => {
-                handleRemoteStream(track, mid, added, metadata)
+                console.log(track, mid, added, metadata)
+                if(metadata.type === "screen") {
+                    console.log(metadata)
+                    handleRemoteScreen(track, mid , added, metadata)
+                } else {
+                    handleRemoteStream(track, mid, added, metadata)
+                }
+                
             }
 
         })
@@ -263,7 +296,14 @@ const VideoRoom = ({roomId}) => {
                     // sending the actual offer with udp
                     pubScreenRef.current.send({
                         message: {
-                            request: "publish"
+                            request: "publish",
+                            descriptions : [
+                            {
+                                    "mid" : "screen",
+                                    "description" : "screen"
+                            },
+                            // Other descriptions, if any
+                            ]
                         },
                         jsep
                     })
