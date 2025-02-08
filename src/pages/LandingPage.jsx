@@ -65,7 +65,7 @@ const LandingPage = () => {
       {/* Hero Section */}
       <div className="text-center mt-1 p-24 bg-[#141414] w-[95vw] h-[70vh] mr-[11vw] rounded-tr-full">
         <h2 className="text-4xl tracking-wide md:text-8xl font-bold mb-10 mr-[9vw] leading-[1.2] md:leading-[1.3]">
-          One Step Solution <br /> for Coding
+          One Step Solution <br /> for Coding Interviews
         </h2>
 
         <p className="text-gray-400 text-lg md:text-xl mb-10 w-3xl text-left ml-[21vw]">
