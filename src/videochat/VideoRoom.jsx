@@ -8,7 +8,6 @@ const VideoRoom = ({roomId}) => {
 
     
     const [remoteStream, setRemoteStream] = useState(new MediaStream())
-    const [remoteScreen, setRemoteScreen] = useState(new MediaStream())
 
     const [streamArr, setStreamArr] = useState([]) 
 
@@ -17,9 +16,6 @@ const VideoRoom = ({roomId}) => {
     const subHandleRef = useRef(null)
     const localVideoRef = useRef(null)
     const remoteVideoRef = useRef(null)
-    const localScreenRef = useRef(null)
-    const remoteScreenRef = useRef(null)
-    const pubScreenRef = useRef(null)
 
     const turnServerUsername = import.meta.env.VITE_TURN_SERVER_USERNAME
     const turnServerPassword = import.meta.env.VITE_TURN_SERVER_PASSWORD
@@ -31,9 +27,6 @@ const VideoRoom = ({roomId}) => {
         remoteVideoRef.current.srcObject = remoteStream
     }
 
-    if(remoteScreen.getTracks().length > 0) {
-        remoteScreenRef.current.srcObject = remoteScreen
-    }
 
     // defining stun and turn servers to be used in janus
     const iceServers = [
@@ -116,30 +109,6 @@ const VideoRoom = ({roomId}) => {
         }
     };
 
-    const handleRemoteScreen = (track, mid, added, metadata) => {
-        if(added) {
-            setRemoteScreen(prevStream => {
-                const newStream = new MediaStream();
-                // Add any existing tracks from the previous stream
-                prevStream.getTracks().forEach(t => newStream.addTrack(t));
-                // Add the new track
-                newStream.addTrack(track);
-
-                return newStream;
-            })
-        } else {
-            setRemoteScreen(prevStream => {
-                const newStream = new MediaStream();
-                prevStream.getTracks().forEach(t => {
-                    if (t !== track) {
-                        newStream.addTrack(t);
-                    }
-                });
-                
-                return newStream;
-            })
-        }
-    }
     
     const handleNewPublishers = (publisher) => {
         if(!subHandleRef.current) {
@@ -268,75 +237,13 @@ const VideoRoom = ({roomId}) => {
             },
             onremotetrack: (track, mid, added, metadata) => {
                 console.log(track, mid, added, metadata)
-                if(metadata.type === "screen") {
-                    console.log(metadata)
-                    handleRemoteScreen(track, mid , added, metadata)
-                } else {
+                
                     handleRemoteStream(track, mid, added, metadata)
-                }
                 
             }
 
         })
     }
-
-    const sendOfferForScreen = () => {
-        navigator.mediaDevices.getDisplayMedia({
-            video: true,
-            audio: true
-        }).then((stream) => {
-            localScreenRef.current.srcObject = stream
-            // creating offer 
-            pubScreenRef.current.createOffer({
-                tracks : [
-                    { type: 'audio', capture: true, recv: true },
-                    { type: 'video', capture: true, recv: true },
-                ],
-                success: (jsep) => {
-                    // sending the actual offer with udp
-                    pubScreenRef.current.send({
-                        message: {
-                            request: "publish",
-                            descriptions : [
-                            {
-                                    "mid" : "screen",
-                                    "description" : "screen"
-                            },
-                            // Other descriptions, if any
-                            ]
-                        },
-                        jsep
-                    })
-                }
-            })
-        })
-    
-    }
-
-    const startScreenShare = () => {
-        janus.current.attach({
-            plugin : "janus.plugin.videoroom",
-            success: (pluginHandle) => {
-                pubScreenRef.current = pluginHandle
-                console.log("Plugin attached for screen sharing")
-                pluginHandle.send({
-                    message: {
-                        request: "join",
-                        ptype: "publisher",
-                        room: roomId
-                    }
-                })
-            },
-            onmessage : (msg, jsep) => {
-                if(msg.videoroom === "joined") {
-                    sendOfferForScreen()
-                } else if(jsep){
-                    pubScreenRef.current.handleRemoteJsep({jsep : jsep})
-                }
-            }
-    })
-}
-
 
     useEffect(() => {
         Janus.init({
@@ -368,11 +275,6 @@ const VideoRoom = ({roomId}) => {
                 <video ref = {remoteVideoRef} autoPlay ></video>
             </div>
 
-            <div>
-                <button onClick={startScreenShare}>Share Screen</button>
-                <video ref = {localScreenRef} autoPlay muted></video>
-                <video ref = {remoteScreenRef} autoPlay></video>
-            </div>
         </div>
     )
 }
